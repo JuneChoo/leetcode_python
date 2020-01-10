@@ -5,11 +5,10 @@ class MyCircularQueue(object):
         Initialize your data structure here. Set the size of the queue to be k.
         :type k: int
         """
-        self.size = k-1
-        self.queue = [None]*(k)
-        self.front_idx = 0
-        self.rear_idx = k-1
-        self.space_used = 0
+        self.queue = ['']*(k)
+        self.front_idx = -1
+        self.rear_idx = -1
+        self.max_length = k
 
     def enQueue(self, value):
         """
@@ -18,14 +17,13 @@ class MyCircularQueue(object):
         :rtype: bool
         """
         if self.isFull():
-            return -1
+            return False
         else:
-            if self.rear_idx == self.size:
+            if self.front_idx == -1:
                 self.rear_idx = 0
             else:
-                self.rear_idx += 1
+                self.rear_idx  = (self.rear_idx + 1) % self.max_length
             self.queue[self.rear_idx] = value
-            self.space_used += 1
             return True   
 
     def deQueue(self):
@@ -33,16 +31,57 @@ class MyCircularQueue(object):
         Delete an element from the circular queue. Return true if the operation is successful.
         :rtype: bool
         """
-        if self.isEmpty():
-            return -1
-        else:
-            self.queue[self.front_idx] = None
-            self.space_used -= 1
-            if self.front_idx == self.size:
-                self.front_idx = 0
-            else:
-                self.front_idx += 1          
+
+                if not self.isEmpty():       
+            if self.start == self.end: # the last element
+                self.start, self.end = -1, -1
+                # self.end = -1
+            else: 
+                self.start = (self.start + 1) % self.max_length
             return True
+        else:
+            return False
+
+
+        if self.isEmpty():
+            return False
+        else:
+            self.queue[self.front_idx] = ''
+            if self.front_idx == self.rear_idx:
+                self.front_idx = -1,-1
+            else:
+                self.front_idx = (self.front_idx + 1) % self.max_length          
+            return TrueL
+
+    def Front(self):
+        """
+        Get the front item from the queue.
+        :rtype: int
+        """
+        return -1 if self.isEmpty() else self.queue[self.front_idx]
+ 
+ 
+    def Rear(self):
+        """
+        Get the last item from the queue.
+        :rtype: int
+        """
+        return -1 if self.isEmpty() else self.queue[self.front_idx]
+
+    def isFull(self):
+        """
+        Checks whether the circular queue is full or not.
+        :rtype: bool
+        """
+        return (self.rear_idx + 1) % self.max_length == self.front_idx
+
+    def isEmpty(self):
+        """
+        Checks whether the circular queue is empty or not.
+        :rtype: bool
+        """
+        return self. front_idx == -1 and self.rear_idx == -1
+
             
 
 # Your MyCircularQueue object will be instantiated and called as such:
